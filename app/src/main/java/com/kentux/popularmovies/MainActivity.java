@@ -47,26 +47,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     String myApiKey;
 
-    Uri.Builder uriBuilder;
-
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
-        String orderByDefault = getString(R.string.popular_url);
-        THE_MOVIE_DATABASE_URL = getString(R.string.tmdb_base_url);
         myApiKey = getString(R.string.my_api_key);
-        String TMDb_DEFAULT_URL = THE_MOVIE_DATABASE_URL + orderByDefault;
-        Uri baseUri = Uri.parse(TMDb_DEFAULT_URL);
-        uriBuilder = baseUri.buildUpon();
+        String uri = "http://api.themoviedb.org/3/movie/popular" + "?api_key=" + myApiKey;
+        Log.v("Main Activity", "Uri: " + uri);
 
-        uriBuilder.appendQueryParameter("api_key", myApiKey);
-        Log.v("Main Activity", "Uri: " + uriBuilder);
-
-        return new MovieLoader(this, uriBuilder.toString());
+        return new MovieLoader(this, uri);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
-        loadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
         mEmptyStateTextView.setText(R.string.no_movies);
@@ -74,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
 
         if (movies != null && !movies.isEmpty()) {
+            mEmptyStateTextView.setText("");
             mAdapter.swap(movies);
         }
     }
@@ -88,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        recyclerView = findViewById(R.id.recycler_view);
+        mEmptyStateTextView = findViewById(R.id.empty_view);
 
 
         mAdapter = new MovieAdapter(movieList);
@@ -136,41 +129,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.refresh) {
-            refreshRecyclerView();
-            return true;
-        } else if (id == R.id.popular_menu) {
-            String orderByPopular = getString(R.string.popular_url);
-            String TMDb_DEFAULT_URL = THE_MOVIE_DATABASE_URL + orderByPopular;
-            Uri baseUri = Uri.parse(TMDb_DEFAULT_URL);
-            uriBuilder = baseUri.buildUpon();
+        String uri;
+        switch (id) {
+            case R.id.refresh: refreshRecyclerView();
+                break;
+            case R.id.popular_menu: uri = "http://api.themoviedb.org/3/movie/popular" + "?api_key=" + myApiKey;
+                Log.v("Main Activity", "Uri: " + uri);
 
-            uriBuilder.appendQueryParameter("api-key", myApiKey);
-            Log.v("Main Activity", "Uri: " + uriBuilder);
-            new MovieLoader(this, uriBuilder.toString());
-            refreshRecyclerView();
-            return true;
-        } else if (id == R.id.top_rated_menu) {
-            String orderByTopRated = getString(R.string.top_rated_url);
-            String TMDb_DEFAULT_URL = THE_MOVIE_DATABASE_URL + orderByTopRated;
-            Uri baseUri = Uri.parse(TMDb_DEFAULT_URL);
-            uriBuilder = baseUri.buildUpon();
+                new MovieLoader(this, uri);
+                refreshRecyclerView();
+                break;
+            case R.id.top_rated_menu: uri = "http://api.themoviedb.org/3/movie/top_rated" + "?api_key=" + myApiKey;
+                Log.v("Main Activity", "Uri: " + uri);
 
-            uriBuilder.appendQueryParameter("api-key", myApiKey);
-            Log.v("Main Activity", "Uri: " + uriBuilder);
-            new MovieLoader(this, uriBuilder.toString());
-            refreshRecyclerView();
-            return true;
+                new MovieLoader(this, uri);
+                refreshRecyclerView();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void refreshRecyclerView() {
+        mEmptyStateTextView.setText("");
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connMgr != null) {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
-                loadingIndicator.setVisibility(View.VISIBLE);
+                if (loadingIndicator != null) {
+                    loadingIndicator.setVisibility(View.VISIBLE);
+                }
                 mEmptyStateTextView.setText("");
 
                 if (mAdapter != null) {
@@ -180,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     loaderManager.restartLoader(1, null, this);
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
+                    mEmptyStateTextView.setVisibility(View.GONE);
                     loaderManager = getLoaderManager();
                     loaderManager.initLoader(1, null, this);
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -196,8 +184,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             } else {
                 // Hide progressBar
-                loadingIndicator.setVisibility(View.GONE);
-
+                if (loadingIndicator != null) {
+                    loadingIndicator.setVisibility(View.GONE);
+                }
                 // Check if mAdapter is not null (which will happen if on launch there was no
                 // connection)
                 if (mAdapter != null) {
