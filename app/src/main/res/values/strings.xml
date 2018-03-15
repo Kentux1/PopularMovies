@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+
+    <string name="popular_menu">Popular</string>
+    <string name="top_rated_menu">Top Rated</string>
+    <string name="refresh_button">Refresh</string>
+
+    <string name="tmdb_base_url">http://api.themoviedb.org/3/movie/</string>
+    <string name="popular_url">popular</string>
+    <string name="top_rated_url">top_rated</string>
+    <string name="my_api_key">cfbbe0cd840ebac5fffb3c50d703cbb8</string>
+
+    <string name="no_movies">No movies to display.</string>
+    <string name="no_internet">No internet connection.</string>
 </resources>
