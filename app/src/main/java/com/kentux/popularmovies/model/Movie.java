@@ -1,10 +1,13 @@
 package com.kentux.popularmovies.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Tiago Gomes on 07/03/2018.
  */
 
-public class Movie {
+public class Movie implements Parcelable {
 
     private String movieTitle;
     private String releaseDate;
@@ -65,4 +68,39 @@ public class Movie {
 
 
 
+
+    protected Movie(Parcel in) {
+        movieTitle = in.readString();
+        releaseDate = in.readString();
+        moviePoster = in.readString();
+        voteAverage = in.readString();
+        plotSynopsis = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(movieTitle);
+        dest.writeString(releaseDate);
+        dest.writeString(moviePoster);
+        dest.writeString(voteAverage);
+        dest.writeString(plotSynopsis);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

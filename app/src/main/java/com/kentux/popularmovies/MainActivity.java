@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,8 +26,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private Context context;
-
     private List<Movie> movieList = new ArrayList<>();
 
     private RecyclerView recyclerView;
@@ -45,20 +42,37 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     String THE_MOVIE_DATABASE_URL;
 
+    String THE_MOVIE_DATABASE_BUILT_URL;
+
+    String TMDb_POPULAR_URL;
+
+    String TMDb_TOP_RATED_URL;
+
     String myApiKey;
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
-        myApiKey = getString(R.string.my_api_key);
-        String uri = "http://api.themoviedb.org/3/movie/popular" + "?api_key=" + myApiKey;
-        Log.v("Main Activity", "Uri: " + uri);
 
-        return new MovieLoader(this, uri);
+        THE_MOVIE_DATABASE_URL = getString(R.string.tmdb_base_url);
+
+        TMDb_POPULAR_URL = getString(R.string.popular_url);
+
+        TMDb_TOP_RATED_URL = getString(R.string.top_rated_url);
+
+        myApiKey = getString(R.string.my_api_key);
+
+        THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_POPULAR_URL + "?api_key=" + myApiKey;
+
+        Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
+
+        return new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
+
         loadingIndicator = findViewById(R.id.loading_indicator);
+
         loadingIndicator.setVisibility(View.GONE);
 
         mEmptyStateTextView.setText(R.string.no_movies);
@@ -78,12 +92,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        THE_MOVIE_DATABASE_URL = getString(R.string.tmdb_base_url);
+
+
+
         recyclerView = findViewById(R.id.recycler_view);
         mEmptyStateTextView = findViewById(R.id.empty_view);
-
 
         mAdapter = new MovieAdapter(movieList);
         if (mAdapter.getItemCount() == 0) {
@@ -129,20 +147,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        String uri;
         switch (id) {
             case R.id.refresh: refreshRecyclerView();
                 break;
-            case R.id.popular_menu: uri = "http://api.themoviedb.org/3/movie/popular" + "?api_key=" + myApiKey;
-                Log.v("Main Activity", "Uri: " + uri);
+            case R.id.popular_menu: THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_POPULAR_URL + "?api_key=" + myApiKey;
+                Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
-                new MovieLoader(this, uri);
+                new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);
                 refreshRecyclerView();
                 break;
-            case R.id.top_rated_menu: uri = "http://api.themoviedb.org/3/movie/top_rated" + "?api_key=" + myApiKey;
-                Log.v("Main Activity", "Uri: " + uri);
+            case R.id.top_rated_menu: THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_TOP_RATED_URL + "?api_key=" + myApiKey;
+                Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
-                new MovieLoader(this, uri);
+                new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);
                 refreshRecyclerView();
                 break;
         }
@@ -170,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     mEmptyStateTextView.setVisibility(View.GONE);
                     loaderManager = getLoaderManager();
                     loaderManager.initLoader(1, null, this);
-                    recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+                    recyclerView = findViewById(R.id.recycler_view);
 
                     mAdapter = new MovieAdapter(movieList);
                     RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,
