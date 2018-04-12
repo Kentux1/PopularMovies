@@ -6,16 +6,39 @@
     <string name="refresh_button">Refresh</string>
 
     <string name="TMDb_poster_path">http://image.tmdb.org/t/p/w185/</string>
-    <string name="tmdb_base_url">http://api.themoviedb.org/3/movie/</string>
+    <string name="TMDB_poster_authority">image.tmdb.org</string>
+    <string name="TMDB_poster_t">t</string>
+    <string name="TMDB_poster_p">p</string>
+    <string name="TMDB_poster_w185">w185</string>
 
-
+    <string name="TMDb_base_authority">api.themoviedb.org</string>
+    <string name="TMDb_base_path_3">3</string>
+    <string name="TMDb_base_path_movie">movie</string>
     <string name="popular_url">popular</string>
     <string name="top_rated_url">top_rated</string>
-    <string name="my_api_key">INSERT YOUR API KEY HERE</string>
+    <string name="TMDb_videos_path">videos</string>
+    <string name="TMDb_reviews_path">reviews</string>
+    <string name="TMDb_base_api_key_query">api_key</string>
+    <string name="my_api_key">cfbbe0cd840ebac5fffb3c50d703cbb8</string>
+
+    <string name="tmdb_base_url">http://api.themoviedb.org/3/movie/</string>
 
     <string name="no_movies">No movies to display.</string>
     <string name="no_internet">No internet connection.</string>
 
     <string name="release_date">Release date:</string>
     <string name="vote_average">Average votes:</string>
+
+    <string name="review_author">Author:</string>
+
+    <!--String for URI Builder-->
+    <string name="scheme">http</string>
+    <string name="yt_video_authority">www.youtube.com</string>
+    <string name="yt_thumb_authority">img.youtube.com</string>
+
+    <string name="watch_path">watch</string>
+    <string name="id_query">v</string>
+
+    <string name="vi_path">vi</string>
+    <string name="thumb_path">default.jpg</string>
 </resources>

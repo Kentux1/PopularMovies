@@ -9,6 +9,19 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+    private String movieID;
     private String movieTitle;
     private String releaseDate;
     private String moviePoster;
@@ -18,12 +31,30 @@ public class Movie implements Parcelable {
     public Movie() {
     }
 
-    public Movie(String movieTitle, String releaseDate, String moviePoster, String voteAverage, String plotSynopsis) {
+    public Movie(String movieID, String movieTitle, String releaseDate, String moviePoster, String voteAverage, String plotSynopsis) {
+        this.movieID = movieID;
         this.movieTitle = movieTitle;
         this.releaseDate = releaseDate;
         this.moviePoster = moviePoster;
         this.voteAverage = voteAverage;
         this.plotSynopsis = plotSynopsis;
+    }
+
+    protected Movie(Parcel in) {
+        movieID = in.readString();
+        movieTitle = in.readString();
+        releaseDate = in.readString();
+        moviePoster = in.readString();
+        voteAverage = in.readString();
+        plotSynopsis = in.readString();
+    }
+
+    public String getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(String movieID) {
+        this.movieID = movieID;
     }
 
     public String getMovieTitle() {
@@ -66,17 +97,6 @@ public class Movie implements Parcelable {
         this.plotSynopsis = plotSynopsis;
     }
 
-
-
-
-    protected Movie(Parcel in) {
-        movieTitle = in.readString();
-        releaseDate = in.readString();
-        moviePoster = in.readString();
-        voteAverage = in.readString();
-        plotSynopsis = in.readString();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -84,23 +104,11 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(movieID);
         dest.writeString(movieTitle);
         dest.writeString(releaseDate);
         dest.writeString(moviePoster);
         dest.writeString(voteAverage);
         dest.writeString(plotSynopsis);
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 }

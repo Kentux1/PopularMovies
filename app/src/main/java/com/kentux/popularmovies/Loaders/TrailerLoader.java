@@ -1,22 +1,24 @@
-package com.kentux.popularmovies;
+package com.kentux.popularmovies.Loaders;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-import com.kentux.popularmovies.model.Movie;
+import com.kentux.popularmovies.model.MovieTrailer;
 import com.kentux.popularmovies.utils.QueryUtils;
 
 import java.util.List;
 
 /**
- * Created by Tiago Gomes on 14/03/2018.
+ * Created by Tiago Gomes on 11/04/2018.
  */
 
-public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
+public class TrailerLoader extends AsyncTaskLoader<List<MovieTrailer>> {
     private String mUrl;
-    MovieLoader(Context context, String url) {
+
+    public TrailerLoader(Context context, String url) {
         super(context);
         mUrl = url;
+
     }
 
     @Override
@@ -25,11 +27,11 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     }
 
     @Override
-    public List<Movie> loadInBackground() {
+    public List<MovieTrailer> loadInBackground() {
         if (mUrl == null) {
             return null;
         }
 
-        return QueryUtils.fetchMovieData(mUrl);
+        return QueryUtils.fetchTrailerData(mUrl);
     }
 }

@@ -1,72 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroudColor"
-    android:orientation="vertical"
     tools:context="com.kentux.popularmovies.DetailActivity">
 
-    <TextView
-        android:id="@+id/movie_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/movieTitleAndVoteColor"
-        android:textSize="26sp"
-        android:padding="8dp"/>
-
-    <TextView
-        android:id="@+id/movie_release_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textColor="@color/movieTitleAndVoteColor"
-        android:textSize="14sp"
-        android:padding="4dp"/>
-
     <LinearLayout
+        android:id="@+id/activity_detail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/movie_image"
-            android:layout_width="150dp"
-            android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            tools:ignore="contentDescription"
-            android:layout_margin="8dp"/>
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/movie_overview"
+            android:id="@+id/movie_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAlignment="center"
             android:textColor="@color/movieTitleAndVoteColor"
-            android:textSize="14sp"
-            android:paddingTop="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="8dp">
+            android:textSize="26sp" />
 
         <TextView
-            android:id="@+id/movie_vote_average"
-            android:layout_width="wrap_content"
+            android:id="@+id/movie_release_date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize = "20sp"
+            android:maxLines="1"
+            android:padding="4dp"
             android:textColor="@color/movieTitleAndVoteColor"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"/>
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/movie_image"
+                android:layout_width="150dp"
+                android:layout_height="300dp"
+                android:layout_margin="8dp"
+                android:scaleType="centerCrop"
+                tools:ignore="contentDescription" />
+
+            <TextView
+                android:id="@+id/movie_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:textColor="@color/movieTitleAndVoteColor"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/movie_vote_average"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:textColor="@color/movieTitleAndVoteColor"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/trailer_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/no_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/review_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/no_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-
-</LinearLayout>
-
+</ScrollView>

@@ -1,4 +1,4 @@
-package com.kentux.popularmovies;
+package com.kentux.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,47 +12,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kentux.popularmovies.DetailActivity;
+import com.kentux.popularmovies.R;
+import com.kentux.popularmovies.interfaces.ItemClickListener;
 import com.kentux.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+//import com.kentux.popularmovies.DetailActivity;
+
 /**
  * Created by Tiago Gomes on 13/03/2018.
  */
 
-class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public CardView movieCardView;
-    public ImageView moviePoster;
-    public TextView movieTitle, voteAverage;
-    private Context context;
 
-    private ItemClickListener itemClickListener;
-    public RecyclerViewHolder(View view) {
-        super(view);
-        movieCardView = view.findViewById(R.id.movie_card_view);
-        moviePoster = view.findViewById(R.id.movie_card);
-        movieTitle = view.findViewById(R.id.movie_card_title);
-        voteAverage = view.findViewById(R.id.movie_card_vote_average);
-        view.setOnClickListener(this);
-    }
-
-    public void setItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
-
-    @Override
-    public void onClick(View view) {
-        itemClickListener.onClick(view, getAdapterPosition());
-    }
-}
-
-class MovieAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-
-    private Context context;
+public class MovieAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
-
+    private Context context;
     private List<Movie> movieList;
 
 
@@ -94,7 +72,7 @@ class MovieAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         return movieList.size();
     }
 
-    void clear() {
+    public void clear() {
         final int size = movieList.size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
@@ -105,7 +83,7 @@ class MovieAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         }
     }
 
-    void swap(List<Movie> list) {
+    public void swap(List<Movie> list) {
         if (movieList != null) {
             movieList.clear();
             movieList.addAll(list);
@@ -113,5 +91,32 @@ class MovieAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
             movieList = list;
         }
         notifyDataSetChanged();
+    }
+}
+
+class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    ImageView moviePoster;
+    TextView movieTitle, voteAverage;
+    private CardView movieCardView;
+    private Context context;
+
+    private ItemClickListener itemClickListener;
+
+    public RecyclerViewHolder(View itemView) {
+        super(itemView);
+        movieCardView = itemView.findViewById(R.id.movie_card_view);
+        moviePoster = itemView.findViewById(R.id.movie_card);
+        movieTitle = itemView.findViewById(R.id.movie_card_title);
+        voteAverage = itemView.findViewById(R.id.movie_card_vote_average);
+        itemView.setOnClickListener(this);
+    }
+
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        itemClickListener.onClick(view, getAdapterPosition());
     }
 }

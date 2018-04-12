@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.kentux.popularmovies.Loaders.MovieLoader;
+import com.kentux.popularmovies.adapters.MovieAdapter;
 import com.kentux.popularmovies.model.Movie;
 
 import java.util.ArrayList;
@@ -26,29 +28,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private List<Movie> movieList = new ArrayList<>();
-
-    private RecyclerView recyclerView;
-
-    private TextView mEmptyStateTextView;
-
-    private MovieAdapter mAdapter;
-
     private static LoaderManager loaderManager;
-
     ProgressBar loadingIndicator;
-
     SwipeRefreshLayout swipeRefreshLayout;
-
     String THE_MOVIE_DATABASE_URL;
-
     String THE_MOVIE_DATABASE_BUILT_URL;
-
     String TMDb_POPULAR_URL;
-
     String TMDb_TOP_RATED_URL;
-
     String myApiKey;
+    private List<Movie> movieList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private TextView mEmptyStateTextView;
+    private MovieAdapter mAdapter;
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int i, Bundle bundle) {
@@ -99,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         THE_MOVIE_DATABASE_URL = getString(R.string.tmdb_base_url);
 
 
-
         recyclerView = findViewById(R.id.recycler_view);
         mEmptyStateTextView = findViewById(R.id.empty_view);
 
@@ -148,15 +138,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.refresh: refreshRecyclerView();
+            case R.id.refresh:
+                refreshRecyclerView();
                 break;
-            case R.id.popular_menu: THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_POPULAR_URL + "?api_key=" + myApiKey;
+            case R.id.popular_menu:
+                THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_POPULAR_URL + "?api_key=" + myApiKey;
                 Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
                 new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);
                 refreshRecyclerView();
                 break;
-            case R.id.top_rated_menu: THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_TOP_RATED_URL + "?api_key=" + myApiKey;
+            case R.id.top_rated_menu:
+                THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_TOP_RATED_URL + "?api_key=" + myApiKey;
                 Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
                 new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);

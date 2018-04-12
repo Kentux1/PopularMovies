@@ -1,4 +1,4 @@
-package com.kentux.popularmovies;
+package com.kentux.popularmovies.interfaces;
 
 import android.view.View;
 
