@@ -102,8 +102,11 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onLoadFinished(Loader<List<MovieReview>> loader, List<MovieReview> movieReviews) {
+            mEmptyStateReviewsTextView.setText("No reviews to display");
+
             mReviewAdapter.clear();
             if (reviewList != null && !reviewList.isEmpty()) {
+                mEmptyStateReviewsTextView.setText("");
                 mReviewAdapter.swap(reviewList);
             }
         }
