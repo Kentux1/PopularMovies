@@ -226,10 +226,8 @@ public class DetailActivity extends AppCompatActivity {
                     .appendPath(getString(R.string.TMDB_poster_p))
                     .appendPath(getString(R.string.TMDB_poster_w185))
                     .appendEncodedPath(moviePosterPath);
-            String TMDB_MOVIE_POSTER_PATH = builder.build().toString();
-            Log.v(LOG_TAG, "Builder: " + TMDB_MOVIE_POSTER_PATH);
-            String TMDb_MOVIE_POSTER_PATH = getString(R.string.TMDb_poster_path) + movieData.getMoviePoster();
-            Log.v(LOG_TAG, "string: " + TMDb_MOVIE_POSTER_PATH);
+            String TMDb_MOVIE_POSTER_PATH = builder.build().toString();
+            Log.v(LOG_TAG, "Builder: " + TMDb_MOVIE_POSTER_PATH);
             Picasso.with(this).load(TMDb_MOVIE_POSTER_PATH).into(moviePosterIV);
         }
         /*if (movieData.getMovieTitle() != null) {

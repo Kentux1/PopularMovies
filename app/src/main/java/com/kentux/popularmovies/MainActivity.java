@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -54,7 +55,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         myApiKey = getString(R.string.my_api_key);
 
-        THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_POPULAR_URL + "?api_key=" + myApiKey;
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(getString(R.string.scheme))
+                .authority(getString(R.string.TMDb_base_authority))
+                .appendPath(getString(R.string.TMDb_base_path_3))
+                .appendPath(getString(R.string.TMDb_base_path_movie))
+                .appendPath(getString(R.string.popular_url))
+                .appendQueryParameter(getString(R.string.TMDb_base_api_key_query), myApiKey);
+
+        THE_MOVIE_DATABASE_BUILT_URL = builder.toString();
 
         Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
@@ -146,14 +155,30 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 refreshRecyclerView();
                 break;
             case R.id.popular_menu:
-                THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_POPULAR_URL + "?api_key=" + myApiKey;
+                Uri.Builder popular_builder = new Uri.Builder();
+                popular_builder.scheme(getString(R.string.scheme))
+                        .authority(getString(R.string.TMDb_base_authority))
+                        .appendPath(getString(R.string.TMDb_base_path_3))
+                        .appendPath(getString(R.string.TMDb_base_path_movie))
+                        .appendPath(getString(R.string.popular_url))
+                        .appendQueryParameter(getString(R.string.TMDb_base_api_key_query), myApiKey);
+
+                THE_MOVIE_DATABASE_BUILT_URL = popular_builder.toString();
                 Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
                 new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);
                 refreshRecyclerView();
                 break;
             case R.id.top_rated_menu:
-                THE_MOVIE_DATABASE_BUILT_URL = THE_MOVIE_DATABASE_URL + TMDb_TOP_RATED_URL + "?api_key=" + myApiKey;
+                Uri.Builder top_rated_builder = new Uri.Builder();
+                top_rated_builder.scheme(getString(R.string.scheme))
+                        .authority(getString(R.string.TMDb_base_authority))
+                        .appendPath(getString(R.string.TMDb_base_path_3))
+                        .appendPath(getString(R.string.TMDb_base_path_movie))
+                        .appendPath(getString(R.string.popular_url))
+                        .appendQueryParameter(getString(R.string.TMDb_base_api_key_query), myApiKey);
+
+                THE_MOVIE_DATABASE_BUILT_URL = top_rated_builder.toString();
                 Log.v("Main Activity", "Uri: " + THE_MOVIE_DATABASE_BUILT_URL);
 
                 new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);

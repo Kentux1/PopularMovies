@@ -2,6 +2,10 @@
     <string name="app_name">Popular Movies</string>
     <string name="favorites_activity">Favorites</string>
 
+    <!--Insert your API key here-->
+    <string name="my_api_key">"API_KEY"</string>
+
+
     <string name="popular_menu">Popular</string>
     <string name="top_rated_menu">Top Rated</string>
     <string name="favorites_menu">Favorites</string>
@@ -25,7 +29,7 @@
     <string name="TMDb_videos_path">videos</string>
     <string name="TMDb_reviews_path">reviews</string>
     <string name="TMDb_base_api_key_query">api_key</string>
-    <string name="my_api_key">cfbbe0cd840ebac5fffb3c50d703cbb8</string>
+
 
     <string name="tmdb_base_url">http://api.themoviedb.org/3/movie/</string>
 

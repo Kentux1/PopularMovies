@@ -5,11 +5,12 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/cardview_light_background</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/movieTitleAndVoteColor</item>
         <item name="android:navigationBarColor">@android:color/background_dark</item>
         <item name="android:colorForeground">@color/cardview_light_background</item>
         <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
     </style>
 
 </resources>
