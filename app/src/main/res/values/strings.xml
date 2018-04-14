@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="favorites_activity">Favorites</string>
 
     <string name="popular_menu">Popular</string>
     <string name="top_rated_menu">Top Rated</string>
+    <string name="favorites_menu">Favorites</string>
     <string name="refresh_button">Refresh</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="delete_all_favorites">Remove all</string>
+    <string name="trailers_title">TRAILERS</string>
+    <string name="reviews_title">REVIEWS</string>
 
     <string name="TMDb_poster_path">http://image.tmdb.org/t/p/w185/</string>
     <string name="TMDB_poster_authority">image.tmdb.org</string>

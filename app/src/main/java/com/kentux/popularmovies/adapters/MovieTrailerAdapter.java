@@ -93,13 +93,8 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<TrailerViewHolder>
         }
     }
 
-    public void swap(List<MovieTrailer> list) {
-        if (trailerList != null) {
-            trailerList.clear();
-            trailerList.addAll(list);
-        } else {
-            trailerList = list;
-        }
+    public void setTrailers(List<MovieTrailer> trailer) {
+        trailerList = trailer;
         notifyDataSetChanged();
     }
 }
@@ -126,3 +121,4 @@ class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         itemClickListener.onClick(view, getAdapterPosition());
     }
 }
+

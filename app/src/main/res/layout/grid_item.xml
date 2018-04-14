@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="6dp"
+        android:backgroundTint="@color/backgroundColor"
         android:elevation="8dp"
-        android:backgroundTint="@color/backgroudColor"
         app:cardCornerRadius="5dp">
 
         <ImageView
@@ -29,8 +29,8 @@
             android:layout_gravity="bottom"
             android:layout_margin="6dp"
             android:elevation="0dp"
-            app:cardCornerRadius="5dp"
-            app:cardBackgroundColor="@color/cardView">
+            app:cardBackgroundColor="@color/cardView"
+            app:cardCornerRadius="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,9 +48,9 @@
                     android:paddingStart="8dp"
                     android:paddingTop="4dp"
                     android:scrollHorizontally="true"
-                    android:textSize="16sp"
                     android:textAlignment="center"
-                    android:textColor="@color/movieTitleAndVoteColor"/>
+                    android:textColor="@color/movieTitleAndVoteColor"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,8 +63,8 @@
                         android:id="@+id/movie_card_vote_average"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="@color/movieTitleAndVoteColor"/>
+                        android:textColor="@color/movieTitleAndVoteColor"
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="24dp"

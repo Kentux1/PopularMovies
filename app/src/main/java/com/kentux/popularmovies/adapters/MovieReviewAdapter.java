@@ -56,13 +56,8 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
         }
     }
 
-    public void swap(List<MovieReview> list) {
-        if (reviewList != null) {
-            reviewList.clear();
-            reviewList.addAll(list);
-        } else {
-            reviewList = list;
-        }
+    public void setReviews(List<MovieReview> review) {
+        reviewList = review;
         notifyDataSetChanged();
     }
 }

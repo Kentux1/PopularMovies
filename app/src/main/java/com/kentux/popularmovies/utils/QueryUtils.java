@@ -63,7 +63,7 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Error closing movie data input stream", e);
         }
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Error closing trailer data input stream", e);
         }
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Error closing review data input stream", e);
         }
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#323232</color>
     <color name="colorAccent">#323232</color>
     <color name="cardView">#A6000000</color>
-    <color name="movieTitleAndVoteColor">#FFFFFF</color>
-    <color name="backgroudColor">#CC000000</color>
+    <color name="movieTitleAndVoteColor">#ffffff</color>
+    <color name="backgroundColor">#CC000000</color>
     <color name="progressBarColor">#FFFFFF</color>
+    <color name="detailActivityCardView">#59000000</color>
 </resources>

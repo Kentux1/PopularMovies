@@ -1,6 +1,7 @@
 package com.kentux.popularmovies;
 
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,14 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kentux.popularmovies.Loaders.ReviewLoader;
 import com.kentux.popularmovies.Loaders.TrailerLoader;
 import com.kentux.popularmovies.adapters.MovieReviewAdapter;
 import com.kentux.popularmovies.adapters.MovieTrailerAdapter;
+import com.kentux.popularmovies.data.MovieContract.MovieEntry;
 import com.kentux.popularmovies.model.Movie;
 import com.kentux.popularmovies.model.MovieReview;
 import com.kentux.popularmovies.model.MovieTrailer;
@@ -33,12 +39,15 @@ public class DetailActivity extends AppCompatActivity {
     public static final String LOG_TAG = "DetailActivity";
     private static final int TRAILER_RESULT_LOADER_ID = 1;
     private static final int REVIEW_RESULT_LOADER_ID = 2;
-    Context context;
-    ImageView moviePoster;
-    TextView mEmptyStateTrailersTextView, mEmptyStateReviewsTextView, movieTitle, movieReleaseDate, movieSynopsis, movieVoteAverage;
+    ImageView moviePosterIV;
+    TextView mEmptyStateTrailersTextView, mEmptyStateReviewsTextView, mTrailerHeaderTextView,
+            mReviewHeaderTextView, movieReleaseDateTV, movieSynopsisTV, movieVoteAverageTV;
     Movie movieData;
     String movieID, releaseDateText, voteAverageText, TMDB_TRAILER_URL, TMDB_REVIEW_URL;
+    String movieName, moviePoster, movieReleaseDate, movieVoteAverage, movieSynopsis;
     RecyclerView trailerRecyclerView, reviewRecyclerView;
+    Toolbar toolbar;
+    private Uri mCurrentMovieUri;
     private List<MovieTrailer> trailerList = new ArrayList<>();
     private List<MovieReview> reviewList = new ArrayList<>();
     private MovieTrailerAdapter mTrailerAdapter;
@@ -69,9 +78,12 @@ public class DetailActivity extends AppCompatActivity {
 
             mTrailerAdapter.clear();
 
-            if (trailerList != null && !trailerList.isEmpty()) {
+            //mTrailerAdapter.setTrailers(movieTrailerList);
+
+            if (movieTrailerList != null && !movieTrailerList.isEmpty()) {
                 mEmptyStateTrailersTextView.setText("");
-                mTrailerAdapter.swap(trailerList);
+                mTrailerHeaderTextView.setText(getString(R.string.trailers_title));
+                mTrailerAdapter.setTrailers(movieTrailerList);
             }
         }
 
@@ -105,10 +117,13 @@ public class DetailActivity extends AppCompatActivity {
             mEmptyStateReviewsTextView.setText("No reviews to display");
 
             mReviewAdapter.clear();
-            if (reviewList != null && !reviewList.isEmpty()) {
+
+            if (movieReviews != null && !movieReviews.isEmpty()) {
                 mEmptyStateReviewsTextView.setText("");
-                mReviewAdapter.swap(reviewList);
+                mReviewHeaderTextView.setText(getString(R.string.reviews_title));
+                mReviewAdapter.setReviews(movieReviews);
             }
+
         }
 
         @Override
@@ -121,13 +136,22 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        toolbar = findViewById(R.id.detail_toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         Intent intent = getIntent();
         movieData = intent.getExtras().getParcelable("movieData");
-
+        mCurrentMovieUri = intent.getData();
+        this.setTitle(movieData.getMovieTitle());
         if (movieData != null) {
             movieID = movieData.getMovieID();
         }
+
+        mTrailerHeaderTextView = findViewById(R.id.trailer_header);
+
+        mReviewHeaderTextView = findViewById(R.id.review_header);
 
         mEmptyStateTrailersTextView = findViewById(R.id.no_trailers);
 
@@ -137,15 +161,13 @@ public class DetailActivity extends AppCompatActivity {
 
         voteAverageText = getString(R.string.vote_average);
 
-        movieTitle = findViewById(R.id.movie_title);
+        moviePosterIV = findViewById(R.id.movie_image);
 
-        moviePoster = findViewById(R.id.movie_image);
+        movieReleaseDateTV = findViewById(R.id.movie_release_date);
 
-        movieReleaseDate = findViewById(R.id.movie_release_date);
+        movieSynopsisTV = findViewById(R.id.movie_overview);
 
-        movieSynopsis = findViewById(R.id.movie_overview);
-
-        movieVoteAverage = findViewById(R.id.movie_vote_average);
+        movieVoteAverageTV = findViewById(R.id.movie_vote_average);
 
         polishUI();
 
@@ -154,14 +176,17 @@ public class DetailActivity extends AppCompatActivity {
 
         mTrailerAdapter = new MovieTrailerAdapter(trailerList);
         mReviewAdapter = new MovieReviewAdapter(reviewList);
-        RecyclerView.LayoutManager mTrailerLayoutManager = new LinearLayoutManager(this, 1, false);
-        RecyclerView.LayoutManager mReviewLayoutManager = new LinearLayoutManager(this, 1, false);
+        RecyclerView.LayoutManager mTrailerLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mReviewLayoutManager = new LinearLayoutManager(this);
+
         trailerRecyclerView.setLayoutManager(mTrailerLayoutManager);
         trailerRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        trailerRecyclerView.setNestedScrollingEnabled(false);
         trailerRecyclerView.setAdapter(mTrailerAdapter);
 
         reviewRecyclerView.setLayoutManager(mReviewLayoutManager);
         reviewRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        reviewRecyclerView.setNestedScrollingEnabled(false);
         reviewRecyclerView.setAdapter(mReviewAdapter);
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -174,6 +199,21 @@ public class DetailActivity extends AppCompatActivity {
                 loaderManager.initLoader(REVIEW_RESULT_LOADER_ID, null, reviewResultLoaderListener);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.add_to_favorites_menu) {
+            saveMovieAsFavorite();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void polishUI() {
@@ -190,23 +230,46 @@ public class DetailActivity extends AppCompatActivity {
             Log.v(LOG_TAG, "Builder: " + TMDB_MOVIE_POSTER_PATH);
             String TMDb_MOVIE_POSTER_PATH = getString(R.string.TMDb_poster_path) + movieData.getMoviePoster();
             Log.v(LOG_TAG, "string: " + TMDb_MOVIE_POSTER_PATH);
-            Picasso.with(this).load(TMDb_MOVIE_POSTER_PATH).into(moviePoster);
+            Picasso.with(this).load(TMDb_MOVIE_POSTER_PATH).into(moviePosterIV);
         }
-        if (movieData.getMovieTitle() != null) {
+        /*if (movieData.getMovieTitle() != null) {
             setTitle(movieData.getMovieTitle());
-            movieTitle.setText(movieData.getMovieTitle());
-        }
+            movieTitleTV.setText(movieData.getMovieTitle());
+        }*/
         if (movieData.getReleaseDate() != null) {
             String displayReleaseDate = releaseDateText + " " + movieData.getReleaseDate();
-            movieReleaseDate.setText(displayReleaseDate);
+            movieReleaseDateTV.setText(displayReleaseDate);
         }
         if (movieData.getPlotSynopsis() != null) {
-            movieSynopsis.setText(movieData.getPlotSynopsis());
+            movieSynopsisTV.setText(movieData.getPlotSynopsis());
         }
         if (movieData.getVoteAverage() != null) {
             String displayVoteAverage = voteAverageText + " " + movieData.getVoteAverage();
-            movieVoteAverage.setText(displayVoteAverage);
+            movieVoteAverageTV.setText(displayVoteAverage);
         }
     }
 
+    private void saveMovieAsFavorite() {
+        movieName = movieData.getMovieTitle();
+        moviePoster = movieData.getMoviePoster();
+        movieReleaseDate = movieData.getReleaseDate();
+        movieVoteAverage = movieData.getVoteAverage();
+
+        ContentValues values = new ContentValues();
+        values.put(MovieEntry.COLUMN_MOVIE_ID, movieID);
+        values.put(MovieEntry.COLUMN_MOVIE_NAME, movieName);
+        values.put(MovieEntry.COLUMN_MOVIE_POSTER, moviePoster);
+        values.put(MovieEntry.COLUMN_MOVIE_RELEASE_DATE, movieReleaseDate);
+        values.put(MovieEntry.COLUMN_MOVIE_VOTE_AVERAGE, movieVoteAverage);
+
+        if (mCurrentMovieUri == null) {
+            Uri newUri = getContentResolver().insert(MovieEntry.CONTENT_URI, values);
+
+            if (newUri == null) {
+                Toast.makeText(this, "Error while adding to favorites", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Movie added to favorites", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

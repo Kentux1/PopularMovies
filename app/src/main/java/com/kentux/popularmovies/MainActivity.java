@@ -2,6 +2,7 @@ package com.kentux.popularmovies;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         THE_MOVIE_DATABASE_URL = getString(R.string.tmdb_base_url);
 
@@ -155,6 +159,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 new MovieLoader(this, THE_MOVIE_DATABASE_BUILT_URL);
                 refreshRecyclerView();
                 break;
+            case R.id.favorites_menu:
+                Intent intent = new Intent(this, FavoritesActivity.class);
+                this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
