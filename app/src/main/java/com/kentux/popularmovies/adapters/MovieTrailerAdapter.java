@@ -105,14 +105,14 @@ class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     private ItemClickListener itemClickListener;
 
-    public TrailerViewHolder(View itemView) {
+    TrailerViewHolder(View itemView) {
         super(itemView);
         trailerThumbnail = itemView.findViewById(R.id.trailer_thumbnail);
         trailerName = itemView.findViewById(R.id.trailer_name);
         itemView.setOnClickListener(this);
     }
 
-    public void setItemClickListener(ItemClickListener itemClickListener) {
+    void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 

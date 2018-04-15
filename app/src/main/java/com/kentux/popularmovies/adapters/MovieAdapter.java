@@ -3,7 +3,6 @@ package com.kentux.popularmovies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +18,6 @@ import com.kentux.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-//import com.kentux.popularmovies.DetailActivity;
 
 /**
  * Created by Tiago Gomes on 13/03/2018.
@@ -97,21 +94,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     ImageView moviePoster;
     TextView movieTitle, voteAverage;
-    private CardView movieCardView;
-    private Context context;
 
     private ItemClickListener itemClickListener;
 
-    public RecyclerViewHolder(View itemView) {
+    RecyclerViewHolder(View itemView) {
         super(itemView);
-        movieCardView = itemView.findViewById(R.id.movie_card_view);
         moviePoster = itemView.findViewById(R.id.movie_card);
         movieTitle = itemView.findViewById(R.id.movie_card_title);
         voteAverage = itemView.findViewById(R.id.movie_card_vote_average);
         itemView.setOnClickListener(this);
     }
 
-    public void setItemClickListener(ItemClickListener itemClickListener) {
+    void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 

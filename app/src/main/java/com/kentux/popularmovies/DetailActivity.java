@@ -35,23 +35,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
+    //Activity tag for logging purposes
+    public static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
-    public static final String LOG_TAG = "DetailActivity";
+    //Loader id's
     private static final int TRAILER_RESULT_LOADER_ID = 1;
     private static final int REVIEW_RESULT_LOADER_ID = 2;
+
+
     ImageView moviePosterIV;
+
     TextView mEmptyStateTrailersTextView, mEmptyStateReviewsTextView, mTrailerHeaderTextView,
             mReviewHeaderTextView, movieReleaseDateTV, movieSynopsisTV, movieVoteAverageTV;
+
     Movie movieData;
-    String movieID, releaseDateText, voteAverageText, TMDB_TRAILER_URL, TMDB_REVIEW_URL;
-    String movieName, moviePoster, movieReleaseDate, movieVoteAverage, movieSynopsis;
+
+    String movieID, movieName, moviePoster, movieReleaseDate, movieVoteAverage, releaseDateText,
+            voteAverageText, TMDB_TRAILER_URL, TMDB_REVIEW_URL;
+
     RecyclerView trailerRecyclerView, reviewRecyclerView;
+
     Toolbar toolbar;
+
     private Uri mCurrentMovieUri;
+
     private List<MovieTrailer> trailerList = new ArrayList<>();
     private List<MovieReview> reviewList = new ArrayList<>();
+
     private MovieTrailerAdapter mTrailerAdapter;
     private MovieReviewAdapter mReviewAdapter;
+
     private LoaderManager.LoaderCallbacks<List<MovieTrailer>> trailerResultLoaderListener
             = new LoaderManager.LoaderCallbacks<List<MovieTrailer>>() {
         @Override
@@ -74,11 +87,9 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onLoadFinished(Loader<List<MovieTrailer>> loader, List<MovieTrailer> movieTrailerList) {
-            mEmptyStateTrailersTextView.setText("No trailers to display");
+            mEmptyStateTrailersTextView.setText(getString(R.string.no_trailers));
 
             mTrailerAdapter.clear();
-
-            //mTrailerAdapter.setTrailers(movieTrailerList);
 
             if (movieTrailerList != null && !movieTrailerList.isEmpty()) {
                 mEmptyStateTrailersTextView.setText("");
@@ -114,7 +125,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onLoadFinished(Loader<List<MovieReview>> loader, List<MovieReview> movieReviews) {
-            mEmptyStateReviewsTextView.setText("No reviews to display");
+            mEmptyStateReviewsTextView.setText(getString(R.string.no_reviews));
 
             mReviewAdapter.clear();
 
@@ -136,15 +147,23 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         toolbar = findViewById(R.id.detail_toolbar);
+
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         Intent intent = getIntent();
+
         movieData = intent.getExtras().getParcelable("movieData");
+
         mCurrentMovieUri = intent.getData();
+
         this.setTitle(movieData.getMovieTitle());
+
         if (movieData != null) {
             movieID = movieData.getMovieID();
         }
@@ -192,6 +211,7 @@ public class DetailActivity extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connMgr != null) {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
             if (networkInfo != null && networkInfo.isConnected()) {
                 LoaderManager loaderManager = getLoaderManager();
 
@@ -230,10 +250,6 @@ public class DetailActivity extends AppCompatActivity {
             Log.v(LOG_TAG, "Builder: " + TMDb_MOVIE_POSTER_PATH);
             Picasso.with(this).load(TMDb_MOVIE_POSTER_PATH).into(moviePosterIV);
         }
-        /*if (movieData.getMovieTitle() != null) {
-            setTitle(movieData.getMovieTitle());
-            movieTitleTV.setText(movieData.getMovieTitle());
-        }*/
         if (movieData.getReleaseDate() != null) {
             String displayReleaseDate = releaseDateText + " " + movieData.getReleaseDate();
             movieReleaseDateTV.setText(displayReleaseDate);

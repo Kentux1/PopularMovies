@@ -40,7 +40,7 @@ public class Movie implements Parcelable {
         this.plotSynopsis = plotSynopsis;
     }
 
-    protected Movie(Parcel in) {
+    private Movie(Parcel in) {
         movieID = in.readString();
         movieTitle = in.readString();
         releaseDate = in.readString();

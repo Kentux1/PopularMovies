@@ -33,7 +33,7 @@ public class MovieCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         Context mContext = context.getApplicationContext();
         ImageView movieImageView;
-        TextView movieNameTV, movieReleaseDateTV, movieVoteAverageTV, movieSynopsisTV;
+        TextView movieNameTV, movieReleaseDateTV, movieVoteAverageTV;
 
         movieImageView = view.findViewById(R.id.favorite_movie_image);
         movieNameTV = view.findViewById(R.id.favorite_movie_title);

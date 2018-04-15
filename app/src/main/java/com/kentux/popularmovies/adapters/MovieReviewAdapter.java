@@ -1,6 +1,5 @@
 package com.kentux.popularmovies.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import java.util.List;
  */
 
 public class MovieReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
-    private Context context;
     private List<MovieReview> reviewList;
 
     public MovieReviewAdapter(List<MovieReview> reviewList) {
@@ -65,7 +63,7 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<ReviewViewHolder> {
 class ReviewViewHolder extends RecyclerView.ViewHolder {
     TextView reviewAuthor, reviewContent;
 
-    public ReviewViewHolder(View itemView) {
+    ReviewViewHolder(View itemView) {
         super(itemView);
         reviewAuthor = itemView.findViewById(R.id.review_author);
         reviewContent = itemView.findViewById(R.id.review_content);

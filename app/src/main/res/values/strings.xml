@@ -35,6 +35,8 @@
 
     <string name="no_movies">No movies to display.</string>
     <string name="no_internet">No internet connection.</string>
+    <string name="no_reviews">No reviews to display.</string>
+    <string name="no_trailers">No trailers to display.</string>
 
     <string name="release_date">Release date:</string>
     <string name="vote_average">Average votes:</string>

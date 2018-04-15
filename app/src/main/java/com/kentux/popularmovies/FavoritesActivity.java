@@ -51,7 +51,6 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
         setContentView(R.layout.activity_favorites);
         toolbar = findViewById(R.id.favorite_toolbar);
         setSupportActionBar(toolbar);
-        //toolbar.setTitleTextColor(getResources().getColor(R.color.movieTitleAndVoteColor));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -96,7 +95,7 @@ public class FavoritesActivity extends AppCompatActivity implements LoaderManage
 
     private void showFavoriteDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to unfavorite this movie?");
+        builder.setMessage("Do you want to remove this movie as a favorite?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
